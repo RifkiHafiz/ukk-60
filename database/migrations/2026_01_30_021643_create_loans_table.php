@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
+            $table->text('image')->nullable();
             $table->string('loan_code');
             $table->foreignId('borrower_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('staff_id')->constrained('users')->onDelete('cascade')->nullable();
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->date('loan_date');
             $table->date('return_date')->nullable();
             $table->text('notes')->nullable();
-            $table->enum('status', ['submitted', 'approved', 'waiting', 'returned', 'rejected'])->default('submitted');
+            $table->enum('status', ['submitted', 'approved', 'borrowed', 'waiting', 'returned', 'rejected'])->default('submitted');
             $table->timestamps();
         });
     }

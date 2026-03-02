@@ -16,11 +16,11 @@ class ReturnController extends Controller
         $returns = ReturnItem::with('loan.item', 'loan.user')->paginate(10);
 
         if (in_array($user->role, ['Admin', 'Staff'])) {
-            $loans = Loan::whereIn('status', ['approved', 'waiting'])
+            $loans = Loan::whereIn('status', ['borrowed', 'waiting', 'returned'])
                 ->with('item', 'user', 'returnItem')
                 ->get();
         } else {
-            $loans = Loan::whereIn('status', ['approved', 'waiting'])
+            $loans = Loan::whereIn('status', ['borrowed', 'waiting', 'returned'])
                 ->where('borrower_id', $user->id)
                 ->with('item', 'user', 'returnItem')
                 ->get();
@@ -45,8 +45,8 @@ class ReturnController extends Controller
 
         $loan = Loan::findOrFail($request->loan_id);
 
-        if ($loan->status !== 'approved') {
-            return redirect()->back()->with(['error' => 'Loan status must be approved to return!']);
+        if ($loan->status !== 'borrowed') {
+            return redirect()->back()->with(['error' => 'Loan status must be borrowed to return!']);
         }
 
         $returnData = [
@@ -111,7 +111,7 @@ class ReturnController extends Controller
         $item->available_quantity -= $loan->quantity;
         $item->save();
 
-        $loan->status = 'approved';
+        $loan->status = 'borrowed';
         $loan->save();
 
         $loanCode = $loan->loan_code;

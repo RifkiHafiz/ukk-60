@@ -6,17 +6,6 @@
         margin: -20px -15px 30px -15px;
     }
 
-    .btn-primary {
-        background: linear-gradient(135deg, #0ea5e9, #0369a1);
-        border: none;
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #0284c7, #075985);
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(14, 165, 233, 0.3);
-    }
-
     .user-avatar {
         width: 40px;
         height: 40px;
@@ -106,12 +95,14 @@
                                         <span class="badge bg-warning rounded-pill px-3 py-2">Submitted</span>
                                     @elseif($loan->status === 'approved')
                                         <span class="badge bg-success rounded-pill px-3 py-2">Approved</span>
+                                    @elseif($loan->status === 'returned')
+                                        <span class="badge bg-danger rounded-pill px-3 py-2">Rejected</span>
                                     @elseif($loan->status === 'waiting')
                                         <span class="badge bg-info rounded-pill px-3 py-2">Waiting</span>
+                                    @elseif($loan->status === 'borrowed')
+                                        <span class="badge bg-primary rounded-pill px-3 py-2">Borrowed</span>
                                     @elseif($loan->status === 'returned')
                                         <span class="badge bg-secondary rounded-pill px-3 py-2">Returned</span>
-                                    @else
-                                        <span class="badge bg-danger rounded-pill px-3 py-2">Rejected</span>
                                     @endif
                                 </td>
                                 <td class="p-3 align-middle border-bottom border-light">
@@ -122,6 +113,24 @@
                                                     @csrf
                                                     <button type="submit" class="btn btn-success btn-sm w-100 px-3 py-1" title="Approve Loan">
                                                         <i class="bi bi-check-circle me-1"></i> Approve
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            @if($loan->status === 'submitted')
+                                                <form action="{{ route('loans.reject', $loan->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger btn-sm w-100 px-3 py-1" title="Reject">
+                                                        <i class="bi bi-x-circle me-1"></i> Reject
+                                                    </button>
+                                                </form>
+                                            @endif
+
+                                            @if($loan->status === 'approved')
+                                                <form action="{{ route('loans.borrowed', $loan->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary btn-sm w-100 px-3 py-1 text-white" title="Mark as Borrowed">
+                                                        <i class="bi bi-check-circle me-1"></i> Mark as Borrowed
                                                     </button>
                                                 </form>
                                             @endif

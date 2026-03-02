@@ -16,7 +16,7 @@ class LoanController extends Controller
         $loans = Loan::with('user', 'item')->paginate(9);
         return view('loans.index', compact('loans', 'items', 'categories'));
     }
-    
+
     public function show() {
         $items = Item::with('category')->paginate(10);
         $categories = Category::all();
@@ -152,6 +152,44 @@ class LoanController extends Controller
         ]);
 
         return redirect()->route('loans.index-table')->with(['success' => 'Loan approved successfully!']);
+    }
+
+    public function reject($id) {
+        $loan = Loan::findOrFail($id);
+
+        if ($loan->status !== 'submitted') {
+            return redirect()->back()->with(['error' => 'Only submitted loans can be rejected!']);
+        }
+
+        $loan->status = 'rejected';
+        $loan->staff_id = auth()->id();
+        $loan->save();
+
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'activity' => 'Rejected loan: ' . $loan->loan_code
+        ]);
+
+        return redirect()->route('loans.index-table')->with(['success' => 'Loan rejected successfully!']);
+    }
+
+    public function borrowed($id) {
+        $loan = Loan::findOrFail($id);
+
+        if ($loan->status !== 'approved') {
+            return redirect()->back()->with(['error' => 'Only approved loans can be marked as borrowed!']);
+        }
+
+        $loan->status = 'borrowed';
+        $loan->staff_id = auth()->id();
+        $loan->save();
+
+        ActivityLog::create([
+            'user_id' => auth()->id(),
+            'activity' => 'Marked loan as borrowed: ' . $loan->loan_code
+        ]);
+
+        return redirect()->route('loans.index-table')->with(['success' => 'Loan marked as borrowed successfully!']);
     }
 
     public function complete($id) {

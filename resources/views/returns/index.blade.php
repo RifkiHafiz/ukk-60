@@ -108,10 +108,12 @@
                                         <span class="badge bg-warning rounded-pill px-3 py-2">Submitted</span>
                                     @elseif($loan->status === 'approved')
                                         <span class="badge bg-success rounded-pill px-3 py-2">Approved</span>
+                                    @elseif($loan->status === 'borrowed')
+                                        <span class="badge bg-primary rounded-pill px-3 py-2">Borrowed</span>
                                     @elseif($loan->status === 'waiting')
                                         <span class="badge bg-info rounded-pill px-3 py-2">Waiting</span>
                                     @elseif($loan->status === 'returned')
-                                        <span class="badge bg-danger rounded-pill px-3 py-2">Returned</span>
+                                        <span class="badge bg-secondary rounded-pill px-3 py-2">Returned</span>
                                     @endif
                                 </td>
                                 <td class="p-3 align-middle border-bottom border-light">
@@ -121,7 +123,7 @@
                                                 <a href="{{ route('returns.create', ['loan_id' => $loan->id]) }}" class="btn btn-primary btn-sm px-3 py-1">
                                                     <i class="bi bi-arrow-return-left me-1"></i> Return
                                                 </a>
-                                            @else
+                                            @elseif ($loan->status === 'waiting')
                                                 <a href="{{ route('returns.edit', $loan->returnItem->id) }}" class="btn btn-warning btn-sm text-white px-3 py-1" title="Edit Return">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
