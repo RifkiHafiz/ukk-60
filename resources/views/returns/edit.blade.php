@@ -61,33 +61,56 @@
                                 Loan Information
                             </h6>
                             <div class="row g-3">
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Loan Code</small>
-                                    <strong>{{ $selectedLoan->loan_code }}</strong>
+                                <!-- Item Image Column -->
+                                <div class="col-md-4" id="itemImageContainer" style="display: none;">
+                                    <img id="loanItemImage" src="" alt="Item Image" class="img-fluid rounded-3" style="max-height: 150px; object-fit: cover; width: 100%;">
                                 </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Item</small>
-                                    <strong>{{ $selectedLoan->item->item_name }}</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Borrower</small>
-                                    <strong>{{ $selectedLoan->user->username }}</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Quantity</small>
-                                    <strong>{{ $selectedLoan->quantity }}</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Loan Date</small>
-                                    <strong>{{ \Carbon\Carbon::parse($selectedLoan->loan_date)->format('d M Y') }}</strong>
-                                </div>
-                                <div class="col-md-6">
-                                    <small class="text-muted d-block">Deadline</small>
-                                    <strong>{{ \Carbon\Carbon::parse($selectedLoan->return_date)->format('d M Y') }}</strong>
+                                <!-- Loan Details Column -->
+                                <div class="col-md-8" id="loanDetailsColumn">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Loan Code</small>
+                                            <strong>{{ $selectedLoan->loan_code }}</strong>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Item</small>
+                                            <strong>{{ $selectedLoan->item->item_name }}</strong>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Borrower</small>
+                                            <strong>{{ $selectedLoan->user->username }}</strong>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Quantity</small>
+                                            <strong>{{ $selectedLoan->quantity }}</strong>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Loan Date</small>
+                                            <strong>{{ \Carbon\Carbon::parse($selectedLoan->loan_date)->format('d M Y') }}</strong>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <small class="text-muted d-block">Deadline</small>
+                                            <strong>{{ \Carbon\Carbon::parse($selectedLoan->return_date)->format('d M Y') }}</strong>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const itemImage = "{{ $selectedLoan->item->item_image ? asset('storage/' . $selectedLoan->item->item_image) : '' }}";
+                            if (itemImage) {
+                                const imgContainer = document.getElementById('itemImageContainer');
+                                const detailsColumn = document.getElementById('loanDetailsColumn');
+                                imgContainer.style.display = 'block';
+                                detailsColumn.className = 'col-md-8';
+                                document.getElementById('loanItemImage').src = itemImage;
+                            } else {
+                                document.getElementById('loanDetailsColumn').className = 'col-md-12';
+                            }
+                        });
+                    </script>
                     @endif
 
                     <!-- Return Date -->

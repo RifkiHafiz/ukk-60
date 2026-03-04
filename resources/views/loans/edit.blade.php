@@ -22,7 +22,7 @@
 <div class="bg-light min-vh-100 py-4">
     <div class="container">
         <!-- Page Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 ms-3">
             <div>
                 <h1 class="h2 fw-bold text-primary mb-1">
                     <i class="bi bi-bag-plus-fill me-2"></i>
@@ -105,10 +105,10 @@
                                     </div>
                                 </div>
                             </div>
-                                                
-                            <input type="hidden" 
-                                   name="item_id" 
-                                   id="itemId" 
+
+                            <input type="hidden"
+                                   name="item_id"
+                                   id="itemId"
                                    value="{{ $selectedItem->id ?? '' }}"
                                    data-available="{{ $selectedItem->available_quantity ?? 0 }}">
 
@@ -205,6 +205,47 @@
 </div>
 
 <script>
+    // Function to show item preview
+    function showItemPreview(item) {
+        const previewCard = document.getElementById('itemPreviewCard');
+        const quantityInput = document.getElementById('quantity');
+
+        // Show preview card
+        previewCard.style.display = 'block';
+
+        // Update preview details
+        document.getElementById('previewItemName').textContent = item.name;
+        document.getElementById('previewItemCode').textContent = item.code;
+        document.getElementById('previewCategory').textContent = item.category;
+        document.getElementById('previewAvailable').textContent = item.available;
+
+        const conditionElement = document.getElementById('previewCondition');
+        conditionElement.textContent = item.condition;
+        conditionElement.className = item.condition === 'Good' ? 'fw-bold text-success' : 'fw-bold text-danger';
+
+        // Handle item image
+        const previewImageContainer = document.getElementById('previewImageContainer');
+        const previewDetailsContainer = document.getElementById('previewDetailsContainer');
+
+        if (item.image) {
+            document.getElementById('previewItemImage').src = item.image;
+            previewImageContainer.style.display = 'block';
+            previewDetailsContainer.className = 'col-md-8';
+        } else {
+            previewImageContainer.style.display = 'none';
+            previewDetailsContainer.className = 'col-md-12';
+        }
+
+        // Set max quantity
+        quantityInput.max = item.available;
+        document.getElementById('quantityHelp').textContent = `Maximum available: ${item.available}`;
+
+        // Reset quantity if exceeds available
+        if (parseInt(quantityInput.value) > item.available) {
+            quantityInput.value = item.available;
+        }
+    }
+
     // Initialize page when loaded
     document.addEventListener('DOMContentLoaded', function() {
         const loanDateInput = document.getElementById('loan_date');
@@ -213,56 +254,18 @@
         const itemIdInput = document.getElementById('itemId');
         const previewCard = document.getElementById('itemPreviewCard');
 
-        // Show item preview if item was pre-selected
-        @if(isset($selectedItem))
+        // Show item preview on page load
+        @if(isset($loan) && $loan->item)
             showItemPreview({
-                id: {{ $selectedItem->id }},
-                name: "{{ $selectedItem->item_name }}",
-                code: "{{ $selectedItem->item_code }}",
-                category: "{{ $selectedItem->category->category_name ?? 'No Category' }}",
-                available: {{ $selectedItem->available_quantity }},
-                condition: "{{ $selectedItem->condition }}",
-                image: "{{ $selectedItem->item_image ? asset('storage/' . $selectedItem->item_image) : '' }}"
+                id: {{ $loan->item->id }},
+                name: "{{ $loan->item->item_name }}",
+                code: "{{ $loan->item->item_code }}",
+                category: "{{ $loan->item->category->category_name ?? 'No Category' }}",
+                available: {{ $loan->item->available_quantity }},
+                condition: "{{ $loan->item->condition }}",
+                image: "{{ $loan->item->item_image ? asset('storage/' . $loan->item->item_image) : '' }}"
             });
         @endif
-
-        // Function to show item preview
-        function showItemPreview(item) {
-            // Show preview card
-            previewCard.style.display = 'block';
-
-            // Update preview details
-            document.getElementById('previewItemName').textContent = item.name;
-            document.getElementById('previewItemCode').textContent = item.code;
-            document.getElementById('previewCategory').textContent = item.category;
-            document.getElementById('previewAvailable').textContent = item.available;
-
-            const conditionElement = document.getElementById('previewCondition');
-            conditionElement.textContent = item.condition;
-            conditionElement.className = item.condition === 'Good' ? 'fw-bold text-success' : 'fw-bold text-danger';
-
-            // Handle item image
-            const previewImageContainer = document.getElementById('previewImageContainer');
-            const previewDetailsContainer = document.getElementById('previewDetailsContainer');
-            
-            if (item.image) {
-                document.getElementById('previewItemImage').src = item.image;
-                previewImageContainer.style.display = 'block';
-                previewDetailsContainer.className = 'col-md-8';
-            } else {
-                previewImageContainer.style.display = 'none';
-                previewDetailsContainer.className = 'col-md-12';
-            }
-
-            // Set max quantity
-            quantityInput.max = item.available;
-            document.getElementById('quantityHelp').textContent = `Maximum available: ${item.available}`;
-
-            // Reset quantity if exceeds available
-            if (parseInt(quantityInput.value) > item.available) {
-                quantityInput.value = item.available;
-            }
-        }
 
         // Set minimum return date based on loan date
         loanDateInput.addEventListener('change', function() {
@@ -293,7 +296,7 @@
                 this.value = max;
                 alert(`Quantity cannot exceed available quantity (${max})`);
             }
-            
+
             // Don't allow less than 1
             if (value < 1) {
                 this.value = 1;
@@ -304,7 +307,7 @@
         quantityInput.addEventListener('keydown', function(e) {
             const max = parseInt(this.max);
             const currentValue = parseInt(this.value) || 0;
-            
+
             // Allow: backspace, delete, tab, escape, enter
             if ([46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
                 // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
@@ -316,7 +319,7 @@
                 (e.keyCode >= 35 && e.keyCode <= 39)) {
                 return;
             }
-            
+
             // Check if the new value would exceed max
             const newValue = parseInt(this.value + String.fromCharCode(e.keyCode));
             if (max && newValue > max) {
@@ -328,7 +331,7 @@
         document.getElementById('loanForm').addEventListener('submit', function(e) {
             const max = parseInt(quantityInput.max);
             const value = parseInt(quantityInput.value);
-            
+
             if (max && value > max) {
                 e.preventDefault();
                 alert(`Quantity cannot exceed available quantity (${max})`);
