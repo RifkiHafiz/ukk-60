@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Item;
 use App\Models\Category;
 use App\Models\ActivityLog;
+use App\Models\Loan;
 
 class ItemController extends Controller
 {
@@ -104,6 +105,15 @@ class ItemController extends Controller
 
     public function destroy($id) {
         $item = Item::findOrFail($id);
+
+        $hasActiveLoan = Loan::where('item_id', $item->id)
+            ->whereIn('status', ['approved', 'borrowed', 'waiting'])
+            ->exists();
+
+        if ($hasActiveLoan) {
+            return redirect()->route('items.index')->with(['error' => 'Cannot delete item because it is currently being borrowed.']);
+        }
+
         $itemName = $item->item_name;
         $item->delete();
 

@@ -202,6 +202,10 @@ class LoanController extends Controller
         $loan->status = 'returned';
         $loan->save();
 
+        $item = $loan->item;
+        $item->available_quantity += $loan->quantity;
+        $item->save();
+
         ActivityLog::create([
             'user_id' => auth()->id(),
             'activity' => 'Completed loan: ' . $loan->loan_code
