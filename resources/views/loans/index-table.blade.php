@@ -109,36 +109,48 @@
                                     <div class="d-flex flex-column gap-2">
                                         @if (Auth::user()->role !== 'Borrower')
                                             @if($loan->status === 'submitted')
-                                                <form action="{{ route('loans.approve', $loan->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('loans.approve', $loan->id) }}" method="POST" class="d-inline action-form">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-success btn-sm w-100 px-3 py-1" title="Approve Loan">
+                                                    <button type="button"
+                                                        class="btn btn-success btn-sm w-100 px-3 py-1"
+                                                        title="Approve Loan"
+                                                        onclick="confirmAction(this, 'Approve Loan', 'Are you sure you want to approve this loan?', 'Approve', 'btn-success')">
                                                         <i class="bi bi-check-circle me-1"></i> Approve
                                                     </button>
                                                 </form>
                                             @endif
 
                                             @if($loan->status === 'submitted')
-                                                <form action="{{ route('loans.reject', $loan->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('loans.reject', $loan->id) }}" method="POST" class="d-inline action-form">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-danger btn-sm w-100 px-3 py-1" title="Reject">
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm w-100 px-3 py-1"
+                                                        title="Reject"
+                                                        onclick="confirmAction(this, 'Reject Loan', 'Are you sure you want to reject this loan?', 'Reject', 'btn-danger')">
                                                         <i class="bi bi-x-circle me-1"></i> Reject
                                                     </button>
                                                 </form>
                                             @endif
 
                                             @if($loan->status === 'approved')
-                                                <form action="{{ route('loans.borrowed', $loan->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('loans.borrowed', $loan->id) }}" method="POST" class="d-inline action-form">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-primary btn-sm w-100 px-3 py-1 text-white" title="Mark as Borrowed">
+                                                    <button type="button"
+                                                        class="btn btn-primary btn-sm w-100 px-3 py-1 text-white"
+                                                        title="Mark as Borrowed"
+                                                        onclick="confirmAction(this, 'Mark as Borrowed', 'Are you sure you want to mark this loan as borrowed?', 'Mark as Borrowed', 'btn-primary')">
                                                         <i class="bi bi-check-circle me-1"></i> Mark as Borrowed
                                                     </button>
                                                 </form>
                                             @endif
 
                                             @if($loan->status === 'waiting')
-                                                <form action="{{ route('loans.complete', $loan->id) }}" method="POST" class="d-inline">
+                                                <form action="{{ route('loans.complete', $loan->id) }}" method="POST" class="d-inline action-form">
                                                     @csrf
-                                                    <button type="submit" class="btn btn-info btn-sm w-100 px-3 py-1 text-white" title="Complete Loan">
+                                                    <button type="button"
+                                                        class="btn btn-info btn-sm w-100 px-3 py-1 text-white"
+                                                        title="Complete Loan"
+                                                        onclick="confirmAction(this, 'Complete Loan', 'Are you sure you want to complete this loan?', 'Complete', 'btn-info')">
                                                         <i class="bi bi-check-circle-fill me-1"></i> Complete
                                                     </button>
                                                 </form>
@@ -186,7 +198,7 @@
 
 <!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteUserModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 rounded-4">
             <div class="modal-header bg-danger text-white rounded-top-4">
                 <h5 class="modal-title mb-0">
@@ -208,6 +220,31 @@
                         Yes, Delete
                     </button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Action Confirmation Modal -->
+<div class="modal fade" id="actionConfirmModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4">
+            <div class="modal-header bg-danger text-white rounded-top-4" id="actionModalHeader">
+                <h5 class="modal-title mb-0" id="actionModalTitle">
+                    <i class="bi bi-question-circle me-2"></i>
+                    <span id="actionModalTitleText"></span>
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p class="mb-0" id="actionModalMessage"></p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn rounded-3 text-white" id="actionModalConfirmBtn">
+                    <i class="bi bi-check-lg me-1"></i>
+                    <span id="actionModalConfirmText"></span>
+                </button>
             </div>
         </div>
     </div>
@@ -241,6 +278,41 @@
         deleteForm.action = '/loans/' + loanId;
         const deleteModal = new bootstrap.Modal(document.getElementById('deleteUserModal'));
         deleteModal.show();
+    }
+
+    // Confirm action function (Approve, Reject, Borrowed, Complete)
+    function confirmAction(btn, title, message, confirmLabel, btnClass) {
+        const form = btn.closest('form');
+
+        document.getElementById('actionModalTitleText').textContent = title;
+        document.getElementById('actionModalMessage').textContent = message;
+        document.getElementById('actionModalConfirmText').textContent = confirmLabel;
+
+        // Map btn-* class to bg-* class for the modal header background
+        const bgClassMap = {
+            'btn-success': 'bg-success',
+            'btn-danger':  'bg-danger',
+            'btn-primary': 'bg-primary',
+            'btn-info':    'bg-info',
+            'btn-warning': 'bg-warning',
+        };
+        const bgClass = bgClassMap[btnClass] || 'bg-secondary';
+
+        const confirmBtn = document.getElementById('actionModalConfirmBtn');
+        confirmBtn.className = 'btn rounded-3 text-white ' + btnClass;
+
+        // Remove previous listener and add a fresh one
+        const newBtn = confirmBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+        newBtn.addEventListener('click', function () {
+            form.submit();
+        });
+
+        const header = document.getElementById('actionModalHeader');
+        header.className = 'modal-header text-white rounded-top-4 ' + bgClass;
+
+        const modal = new bootstrap.Modal(document.getElementById('actionConfirmModal'));
+        modal.show();
     }
 
     // Validate quantity on input
