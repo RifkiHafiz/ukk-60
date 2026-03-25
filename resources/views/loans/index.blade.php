@@ -43,23 +43,6 @@
 
 <div class="bg-light min-vh-100 py-4">
     <div class="container-fluid">
-        <!-- Success/Error Messages -->
-        @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 mb-4" role="alert">
-            <i class="bi bi-check-circle me-2"></i>
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
-
-        @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show border-0 rounded-3 mb-4" role="alert">
-            <i class="bi bi-exclamation-circle me-2"></i>
-            {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        @endif
-
         <!-- Page Header -->
         <div class="card border-0 rounded-4 shadow-sm mb-4">
             <div class="card-body p-4">

@@ -130,6 +130,9 @@
 
     <x-loading fullscreen text="Loading..." />
 
+    <!-- Flash message modal (success / error) -->
+    <x-alert-modal />
+
     @if (Auth::user() && !request()->routeIs('login.page', 'register.page', 'landing'))
         <div style="margin-left: 260px;">
             @yield('content')

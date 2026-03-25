@@ -370,7 +370,7 @@
 
         .alert-error i {
             color: #ef4444;
-            font-size: 1.1rem;
+            font-size: 1rem;
             flex-shrink: 0;
         }
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->text('image')->nullable();
             $table->string('loan_code');
             $table->foreignId('borrower_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('staff_id')->constrained('users')->onDelete('cascade')->nullable();
+            // $table->foreignId('staff_id')->constrained('users')->onDelete('cascade')->nullable();
             $table->foreignId('item_id')->constrained('items')->onDelete('cascade');
             $table->integer('quantity');
             $table->date('loan_date');

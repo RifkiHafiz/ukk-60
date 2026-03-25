@@ -47,23 +47,6 @@
 </style>
 
 <div class="container-fluid mt-3">
-    <!-- Success/Error Messages -->
-    @if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show border-0 rounded-3 mt-2" role="alert">
-        <i class="bi bi-check-circle me-2"></i>
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
-
-    @if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show border-0 rounded-3 mt-2" role="alert">
-        <i class="bi bi-exclamation-circle me-2"></i>
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-    @endif
-
     <!-- Main Card -->
     <div class="card border-0 rounded-4 mb-4">
         <div class="card-header bg-white border-bottom border-2 border-light rounded-top-4 p-4">

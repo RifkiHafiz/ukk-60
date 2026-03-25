@@ -63,15 +63,17 @@ class LoanController extends Controller
         $loanCode = 'L' . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 
         $data = [
-            'loan_code' => $loanCode,
+            'loan_code'   => $loanCode,
             'borrower_id' => auth()->id(),
-            'item_id' => $request->item_id,
-            'quantity' => $quantity,
-            'loan_date' => $request->loan_date,
+            'item_id'     => $request->item_id,
+            'staff_id'    => null,
+            'quantity'    => $quantity,
+            'loan_date'   => $request->loan_date,
             'return_date' => $request->return_date,
-            'status' => 'submitted',
-            'notes' => $request->notes,
+            'status'      => 'submitted',
+            'notes'       => $request->notes,
         ];
+
 
         $loan = Loan::create($data);
 
