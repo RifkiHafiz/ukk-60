@@ -11,23 +11,24 @@ use App\Models\ActivityLog;
 class LoanController extends Controller
 {
     public function index() {
-        $items = Item::with('category')->paginate(9);
+        $items = Item::with('category')->latest()->paginate(9);
         $categories = Category::all();
-        $loans = Loan::with('user', 'item')->paginate(9);
+        $loans = Loan::with('user', 'item')->latest()->paginate(9);
         return view('loans.index', compact('loans', 'items', 'categories'));
     }
 
     public function show() {
-        $items = Item::with('category')->paginate(10);
+        $items = Item::with('category')->latest()->paginate(10);
         $categories = Category::all();
 
         $user = auth()->user();
 
         if (in_array($user->role, ['Admin', 'Staff'])) {
-            $loans = Loan::with('user', 'item')->paginate(10);
+            $loans = Loan::with('user', 'item')->latest()->paginate(10);
         } else {
             $loans = Loan::with('user', 'item')
                 ->where('borrower_id', $user->id)
+                ->latest()
                 ->paginate(10);
         }
 
@@ -116,7 +117,6 @@ class LoanController extends Controller
             return redirect()->back()->with(['error' => 'Quantity not available! Available: ' . $item->available_quantity]);
         }
 
-        // If editing a rejected/cancelled loan → auto-resubmit
         $isResubmit = in_array($loan->status, ['rejected', 'cancelled']);
 
         $loan->update([
@@ -193,7 +193,6 @@ class LoanController extends Controller
         $loan    = Loan::findOrFail($id);
         $isAdmin = auth()->user()->role === 'Admin';
 
-        // Only borrower (own loan) or admin can cancel
         if (!$isAdmin && $loan->borrower_id !== auth()->id()) {
             return redirect()->back()->with(['error' => 'Unauthorized!']);
         }
@@ -207,12 +206,11 @@ class LoanController extends Controller
             'rejected_reason' => 'required|string|max:1000',
         ]);
 
-        // Restore item quantity
         $item = $loan->item;
         $item->available_quantity += $loan->quantity;
         $item->save();
 
-        $loan->status          = 'cancelled'; // distinct from rejected
+        $loan->status          = 'cancelled';
         $loan->rejected_reason = $request->rejected_reason;
         $loan->save();
 

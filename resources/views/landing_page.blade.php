@@ -156,7 +156,7 @@
         }
 
         .hero-image img {
-            max-width: 100%;
+            max-width: 80%;
             height: auto;
         }
 
@@ -403,24 +403,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-image">
-                        <svg viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg" style="max-width: 100%; height: auto;">
-                            <circle cx="250" cy="200" r="180" fill="#e0f2fe" opacity="0.5"/>
-                            <circle cx="250" cy="200" r="140" fill="#bae6fd" opacity="0.5"/>
-                            <rect x="150" y="80" width="200" height="280" rx="20" fill="#0ea5e9"/>
-                            <rect x="160" y="90" width="180" height="260" rx="15" fill="white"/>
-                            <rect x="180" y="110" width="140" height="40" rx="8" fill="#e0f2fe"/>
-                            <circle cx="200" cy="130" r="12" fill="#0ea5e9"/>
-                            <rect x="220" y="120" width="80" height="8" rx="4" fill="#0ea5e9"/>
-                            <rect x="220" y="135" width="60" height="6" rx="3" fill="#bae6fd"/>
-                            <rect x="180" y="165" width="140" height="40" rx="8" fill="#e0f2fe"/>
-                            <circle cx="200" cy="185" r="12" fill="#0284c7"/>
-                            <rect x="220" y="175" width="80" height="8" rx="4" fill="#0284c7"/>
-                            <rect x="220" y="190" width="60" height="6" rx="3" fill="#bae6fd"/>
-                            <rect x="180" y="220" width="140" height="40" rx="8" fill="#e0f2fe"/>
-                            <circle cx="200" cy="240" r="12" fill="#0369a1"/>
-                            <rect x="220" y="230" width="80" height="8" rx="4" fill="#0369a1"/>
-                            <rect x="220" y="245" width="60" height="6" rx="3" fill="#bae6fd"/>
-                        </svg>
+                        <img src="{{ asset('storage/img/logo-pinjam.png') }}" alt="Logo Peminjaman Barang">
                     </div>
                 </div>
             </div>

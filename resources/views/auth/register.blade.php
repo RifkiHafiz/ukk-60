@@ -333,35 +333,19 @@
 
         @media (max-width: 768px) {
             .register-container {
-                flex-direction: column-reverse;
+                flex-direction: column;
                 min-height: 100vh;
                 height: auto;
             }
 
             .welcome-section {
-                flex: 0 0 auto;
-                padding: 30px 24px;
-                min-height: auto;
-            }
-
-            .welcome-section h1 {
-                font-size: 1.75rem;
-                margin-bottom: 10px;
-            }
-
-            .welcome-section p {
-                font-size: 0.9rem;
+                display: none;
             }
 
             .register-section {
                 flex: 1;
                 padding: 24px 20px;
-                align-items: flex-start;
-            }
-
-            .decoration,
-            .circle {
-                display: none;
+                align-items: center;
             }
         }
 
