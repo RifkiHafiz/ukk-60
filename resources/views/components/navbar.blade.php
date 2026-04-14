@@ -97,7 +97,7 @@
                         <img
                             src="{{ auth()->user()->profile_picture
                                 ? asset('storage/' . auth()->user()->profile_picture)
-                                : asset('storage/img/user-default.jpg') }}"
+                                : asset('img/user-default.jpg') }}"
                             alt="Profile"
                             class="rounded-circle border border-white profile-avatar-nav"
                             width="35"

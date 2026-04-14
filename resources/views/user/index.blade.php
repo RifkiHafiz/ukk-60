@@ -87,7 +87,7 @@
                                 <td class="p-3 align-middle border-bottom border-light">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="flex-shrink-0">
-                                            <img src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('storage/img/user-default.jpg') }}" alt="Profile"
+                                            <img src="{{ $user->profile_picture ? asset('storage/' . $user->profile_picture) : asset('img/user-default.jpg') }}" alt="Profile"
                                                 class="rounded-circle object-fit-cover border border-white" width="40" height="40">
                                         </div>
                                         <div class="flex-grow-1">

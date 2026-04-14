@@ -347,7 +347,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="">
-                <img src="{{ asset('storage/img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
+                <img src="{{ asset('img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
                 <div><span>Borrow</span>Me</div>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -403,7 +403,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-image">
-                        <img src="{{ asset('storage/img/logo-pinjam.png') }}" alt="Logo Peminjaman Barang">
+                        <img src="{{ asset('img/logo-pinjam.png') }}" alt="Logo Peminjaman Barang">
                     </div>
                 </div>
             </div>
@@ -478,7 +478,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-brand">
-                    <img src="{{ asset('storage/img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
+                    <img src="{{ asset('img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
                     BorrowMe
                 </div>
                 

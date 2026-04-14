@@ -86,7 +86,7 @@
     <div id="appSidebar" class="d-flex flex-column p-3 bg-white rounded-end-5"
         style="position: fixed; top: 0; left: 0; width: 260px; min-height: 100vh; border-right: 1px solid #e5e7eb; z-index: 10;">
         <a class="navbar-brand" href="/">
-            <img src="{{ asset('storage/img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
+            <img src="{{ asset('img/logo-BorrowMe.png') }}" alt="BorrowMe Logo">
             <div><span>Borrow</span>Me</div>
         </a>
 

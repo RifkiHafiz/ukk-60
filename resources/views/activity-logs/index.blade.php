@@ -59,7 +59,7 @@
                                 <td class="p-3 align-middle border-bottom border-light">
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="user-avatar rounded-circle d-flex align-items-center justify-content-center text-white fw-bold" style="width: 35px; height: 35px;">
-                                            <img src="{{ $log->user->profile_picture ? asset('storage/' . $log->user->profile_picture) : asset('storage/img/user-default.jpg') }}" alt="Profile"
+                                            <img src="{{ $log->user->profile_picture ? asset('storage/' . $log->user->profile_picture) : asset('img/user-default.jpg') }}" alt="Profile"
                                             class="rounded-circle object-fit-cover border border-white" width="35" height="35">
                                         </div>
                                         <span>{{ $log->user->username ?? 'Unknown User' }}</span>
