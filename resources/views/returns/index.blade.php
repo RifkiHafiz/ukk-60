@@ -102,7 +102,7 @@
                                 <td class="p-3 align-middle border-bottom border-light">
                                     <div class="d-flex gap-2 justify-content-center">
                                         @if (Auth::user()->role !== 'Staff')
-                                            @if(!$loan->returnItem)
+                                            @if(!$loan->returnItem && $loan->status !== 'returned')
                                                 <a href="{{ route('returns.create', ['loan_id' => $loan->id]) }}" class="btn btn-primary btn-sm px-3 py-1">
                                                     <i class="bi bi-arrow-return-left me-1"></i> Return
                                                 </a>

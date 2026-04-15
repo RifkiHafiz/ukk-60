@@ -197,7 +197,7 @@
                                             {{-- ADMIN / BORROWER: Resubmit --}}
                                             @if ($canResubmit && in_array($loan->status, ['rejected', 'cancelled']))
                                                 <li>
-                                                    <a href="{{ route('loans.edit', $loan->id) }}" class="dropdown-item text-warning">
+                                                    <a href="{{ route('loans.reupdate', $loan->id) }}" class="dropdown-item text-warning">
                                                         <i class="bi bi-arrow-clockwise me-2"></i> Resubmit
                                                     </a>
                                                 </li>
