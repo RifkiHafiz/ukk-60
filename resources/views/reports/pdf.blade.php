@@ -118,6 +118,7 @@
         .badge-primary   { background: #dbeafe; color: #1d4ed8; }
         .badge-success   { background: #dcfce7; color: #15803d; }
         .badge-warning   { background: #fef9c3; color: #b45309; }
+        .badge-orange    { background: #ffd2b2; color: #ce5906; }
         .badge-danger    { background: #fee2e2; color: #b91c1c; }
         .badge-info      { background: #e0f2fe; color: #0369a1; }
         .badge-secondary { background: #f1f5f9; color: #475569; }
@@ -195,13 +196,20 @@
                         @php
                             $sc = match($loan->status) {
                                 'submitted' => 'warning',
-                                'approved'  => 'info',
-                                'waiting'   => 'secondary',
+                                'approved'  => 'success',
+                                'borrowed'  => 'primary',
+                                'waiting'   => 'info',
                                 'returned'  => 'success',
-                                default     => 'secondary',
+                                'rejected'  => 'danger',
+                                'cancelled' => 'orange',
+                                default     => 'dark',
                             };
                         @endphp
-                        <span class="badge badge-{{ $sc }}">{{ ucfirst($loan->status) }}</span>
+                        {{-- @if ($loan->status === 'cancelled')
+                            <span class="badge" style="background:#f97416d2;">{{ ucfirst('cancelled') }}</span>
+                        @else --}}
+                            <span class="badge badge-{{ $sc }}">{{ ucfirst($loan->status) }}</span>
+                        {{-- @endif --}}
                     </td>
                 </tr>
             @empty
@@ -235,9 +243,8 @@
                     <td>
                         @php
                             $cc = match($return->condition) {
-                                'good'    => 'success',
-                                'damaged' => 'warning',
-                                'lost'    => 'danger',
+                                'Good'    => 'success',
+                                'Damaged' => 'danger',
                                 default   => 'secondary',
                             };
                         @endphp

@@ -13,7 +13,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Admin Users
         User::create([
             'username' => 'admin',
             'full_name' => 'Administrator',
@@ -34,7 +33,6 @@ class UserSeeder extends Seeder
             'role' => 'Admin',
         ]);
 
-        // Create Staff Users
         User::create([
             'username' => 'staff1',
             'full_name' => 'Budi Santoso',
@@ -65,7 +63,6 @@ class UserSeeder extends Seeder
             'role' => 'Staff',
         ]);
 
-        // Create Borrower Users
         User::create([
             'username' => 'borrower1',
             'full_name' => 'Muhammad Rizki',

@@ -30,13 +30,15 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'item_code' => 'required|string|max:50|unique:items',
+            'item_code' => 'required|string|max:50|unique:items,item_code',
             'item_name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'total_quantity' => 'required|integer',
             'available_quantity' => 'required|integer',
             'item_image' => 'nullable|image|max:2048',
             'condition' => 'required|in:Good,Damaged',
+        ], [
+            'item_code.unique'=> 'Item code is already exist, please use a different code!',
         ]);
 
         $data = [
@@ -81,6 +83,8 @@ class ItemController extends Controller
             'available_quantity' => 'required|integer',
             'item_image' => 'nullable|image|max:2048',
             'condition' => 'required|in:Good,Damaged',
+        ], [
+            'item_code.unique'=> 'Item code is already exist, please use a different code!'
         ]);
 
         $data = [

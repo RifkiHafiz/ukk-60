@@ -250,8 +250,8 @@
                                 <td class="p-3 align-middle border-bottom border-light">
                                     @php
                                         $condClass = match($return->condition) {
-                                            'good'    => 'success',
-                                            'damaged' => 'danger',
+                                            'Good'    => 'success',
+                                            'Damaged' => 'danger',
                                             default   => 'secondary',
                                         };
                                     @endphp

@@ -12,7 +12,6 @@ class ItemSeeder extends Seeder
      */
     public function run(): void
     {
-        // Electronics (category_id: 1)
         Item::create([
             'category_id' => 1,
             'item_image' => 'img/laptop-dell.jpg',
@@ -33,7 +32,6 @@ class ItemSeeder extends Seeder
             'condition' => 'Good',
         ]);
 
-        // Sports Equipment (category_id: 2)
         Item::create([
             'category_id' => 2,
             'item_image' => 'img/bola-adidas.jpg',
@@ -54,7 +52,6 @@ class ItemSeeder extends Seeder
             'condition' => 'Good',
         ]);
 
-        // Laboratory Equipment (category_id: 3)
         Item::create([
             'category_id' => 3,
             'item_image' => 'img/mikroskop.jpg',
@@ -75,7 +72,6 @@ class ItemSeeder extends Seeder
             'condition' => 'Good',
         ]);
 
-        // Office Equipment (category_id: 4)
         Item::create([
             'category_id' => 4,
             'item_image' => 'img/printer-laserjet.jpg',
@@ -96,7 +92,6 @@ class ItemSeeder extends Seeder
             'condition' => 'Good',
         ]);
 
-        // Audio Visual Equipment (category_id: 5)
         Item::create([
             'category_id' => 5,
             'item_image' => 'img/projector.jpg',
@@ -117,7 +112,6 @@ class ItemSeeder extends Seeder
             'condition' => 'Good',
         ]);
 
-        // Power Tools (category_id: 6)
         Item::create([
             'category_id' => 6,
             'item_image' => 'img/bor-listrik.jpg',

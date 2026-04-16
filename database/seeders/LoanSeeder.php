@@ -19,14 +19,11 @@ class LoanSeeder extends Seeder
      */
     public function run(): void
     {
-        // ── SUBMITTED (belum diproses, staff_id null) ──────────────────
-
-        // Loan 1: Submitted - waiting for approval
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd') . '-001',
-            'borrower_id' => 6,    // Muhammad Rizki
-            'staff_id'    => null, // belum diproses
-            'item_id'     => 1,    // Laptop Dell
+            'borrower_id' => 6,
+            'staff_id'    => null,
+            'item_id'     => 1,
             'quantity'    => 2,
             'loan_date'   => Carbon::now()->addDays(1),
             'return_date' => Carbon::now()->addDays(8),
@@ -34,12 +31,11 @@ class LoanSeeder extends Seeder
             'status'      => 'submitted',
         ]);
 
-        // Loan 2: Submitted - waiting for approval
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd') . '-002',
-            'borrower_id' => 7,    // Dewi Lestari
-            'staff_id'    => null, // belum diproses
-            'item_id'     => 10,   // Kamera DSLR
+            'borrower_id' => 7,
+            'staff_id'    => null,
+            'item_id'     => 10,
             'quantity'    => 1,
             'loan_date'   => Carbon::now()->addDays(2),
             'return_date' => Carbon::now()->addDays(5),
@@ -47,14 +43,11 @@ class LoanSeeder extends Seeder
             'status'      => 'submitted',
         ]);
 
-        // ── APPROVED (disetujui staff, menunggu dipinjam) ───────────────
-
-        // Loan 3: Approved by staff
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-5 days')) . '-003',
-            'borrower_id' => 8,  // Ahmad Fauzi
-            'staff_id'    => 3,  // Budi Santoso (yang approve)
-            'item_id'     => 3,  // Bola Sepak
+            'borrower_id' => 8,
+            'staff_id'    => 3,
+            'item_id'     => 3,
             'quantity'    => 3,
             'loan_date'   => Carbon::now()->subDays(5),
             'return_date' => Carbon::now()->addDays(2),
@@ -62,12 +55,11 @@ class LoanSeeder extends Seeder
             'status'      => 'approved',
         ]);
 
-        // Loan 4: Approved by staff
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-3 days')) . '-004',
-            'borrower_id' => 9,  // Rina Kartika
-            'staff_id'    => 4,  // Ani Wijaya (yang approve)
-            'item_id'     => 9,  // Projector Epson
+            'borrower_id' => 9,
+            'staff_id'    => 4,
+            'item_id'     => 9,
             'quantity'    => 2,
             'loan_date'   => Carbon::now()->subDays(3),
             'return_date' => Carbon::now()->addDays(4),
@@ -75,14 +67,11 @@ class LoanSeeder extends Seeder
             'status'      => 'approved',
         ]);
 
-        // ── BORROWED (sedang dipinjam) ──────────────────────────────────
-
-        // Loan 5: Borrowed - currently in use
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-7 days')) . '-005',
-            'borrower_id' => 10, // Hendra Gunawan
-            'staff_id'    => 5,  // Dedi Kurniawan (yang approve)
-            'item_id'     => 5,  // Mikroskop Digital
+            'borrower_id' => 10,
+            'staff_id'    => 5,
+            'item_id'     => 5,
             'quantity'    => 1,
             'loan_date'   => Carbon::now()->subDays(7),
             'return_date' => Carbon::now()->addDays(7),
@@ -90,14 +79,11 @@ class LoanSeeder extends Seeder
             'status'      => 'borrowed',
         ]);
 
-        // ── WAITING (dikembalikan, menunggu verifikasi) ─────────────────
-
-        // Loan 6: Waiting verification after return
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-10 days')) . '-006',
-            'borrower_id' => 11, // Lina Marlina
-            'staff_id'    => 3,  // Budi Santoso
-            'item_id'     => 4,  // Raket Badminton
+            'borrower_id' => 11,
+            'staff_id'    => 3,
+            'item_id'     => 4,
             'quantity'    => 2,
             'loan_date'   => Carbon::now()->subDays(10),
             'return_date' => Carbon::now()->subDays(3),
@@ -105,12 +91,11 @@ class LoanSeeder extends Seeder
             'status'      => 'waiting',
         ]);
 
-        // Loan 7: Waiting verification after return
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-12 days')) . '-007',
-            'borrower_id' => 12, // Eko Prasetyo
-            'staff_id'    => 4,  // Ani Wijaya
-            'item_id'     => 7,  // Printer HP
+            'borrower_id' => 12,
+            'staff_id'    => 4,
+            'item_id'     => 7,
             'quantity'    => 1,
             'loan_date'   => Carbon::now()->subDays(12),
             'return_date' => Carbon::now()->subDays(5),
@@ -118,14 +103,11 @@ class LoanSeeder extends Seeder
             'status'      => 'waiting',
         ]);
 
-        // ── REJECTED (ditolak oleh staff/admin, wajib ada rejected_reason) ──
-
-        // Loan 8: Rejected by staff - item stock insufficient
         Loan::create([
             'loan_code'       => 'LOAN-' . date('Ymd', strtotime('-8 days')) . '-008',
-            'borrower_id'     => 13, // Fitri Handayani
-            'staff_id'        => 3,  // Budi Santoso (yang reject)
-            'item_id'         => 11, // Bor Listrik
+            'borrower_id'     => 13,
+            'staff_id'        => 3,
+            'item_id'         => 11,
             'quantity'        => 1,
             'loan_date'       => Carbon::now()->subDays(8),
             'return_date'     => Carbon::now()->subDays(1),
@@ -134,12 +116,11 @@ class LoanSeeder extends Seeder
             'status'          => 'rejected',
         ]);
 
-        // Loan 9: Rejected by admin - incomplete documentation
         Loan::create([
             'loan_code'       => 'LOAN-' . date('Ymd', strtotime('-4 days')) . '-009',
-            'borrower_id'     => 14, // Agus Setiawan
-            'staff_id'        => 2,  // Rifki (admin yang reject)
-            'item_id'         => 8,  // Scanner Canon
+            'borrower_id'     => 14,
+            'staff_id'        => 2,
+            'item_id'         => 8,
             'quantity'        => 1,
             'loan_date'       => Carbon::now()->addDays(1),
             'return_date'     => Carbon::now()->addDays(6),
@@ -148,14 +129,11 @@ class LoanSeeder extends Seeder
             'status'          => 'rejected',
         ]);
 
-        // ── CANCELLED (dibatalkan oleh borrower, wajib ada rejected_reason) ──
-
-        // Loan 10: Cancelled by borrower - no longer needed
         Loan::create([
             'loan_code'       => 'LOAN-' . date('Ymd', strtotime('-6 days')) . '-010',
-            'borrower_id'     => 15, // Maya Sari
-            'staff_id'        => null, // belum sempat diproses sebelum cancel
-            'item_id'         => 6,   // Pipet Volumetrik
+            'borrower_id'     => 15,
+            'staff_id'        => null,
+            'item_id'         => 6,
             'quantity'        => 2,
             'loan_date'       => Carbon::now()->addDays(1),
             'return_date'     => Carbon::now()->addDays(7),
@@ -164,14 +142,11 @@ class LoanSeeder extends Seeder
             'status'          => 'cancelled',
         ]);
 
-        // ── RETURNED (selesai, sudah diverifikasi) ──────────────────────
-
-        // Loan 11: Returned and completed
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-20 days')) . '-011',
-            'borrower_id' => 6,  // Muhammad Rizki
-            'staff_id'    => 5,  // Dedi Kurniawan
-            'item_id'     => 2,  // MacBook Pro
+            'borrower_id' => 6,
+            'staff_id'    => 5,
+            'item_id'     => 2,
             'quantity'    => 1,
             'loan_date'   => Carbon::now()->subDays(20),
             'return_date' => Carbon::now()->subDays(13),
@@ -179,12 +154,11 @@ class LoanSeeder extends Seeder
             'status'      => 'returned',
         ]);
 
-        // Loan 12: Returned and completed
         Loan::create([
             'loan_code'   => 'LOAN-' . date('Ymd', strtotime('-15 days')) . '-012',
-            'borrower_id' => 7,  // Dewi Lestari
-            'staff_id'    => 3,  // Budi Santoso
-            'item_id'     => 12, // Tangga Lipat
+            'borrower_id' => 7,
+            'staff_id'    => 3,
+            'item_id'     => 12,
             'quantity'    => 1,
             'loan_date'   => Carbon::now()->subDays(15),
             'return_date' => Carbon::now()->subDays(8),
