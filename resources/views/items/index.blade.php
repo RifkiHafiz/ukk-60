@@ -53,9 +53,10 @@
                             <span class="input-group-text bg-white border-end-0">
                                 <i class="bi bi-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control border-start-0 search-input"
-                                   id="searchInput" placeholder="Search items..."
-                                   onkeyup="searchItems()">
+                            <form method="GET" action="{{ route('items.index') }}">
+                                <input type="text" class="form-control border-start-0 rounded-start-0 search-input"
+                                id="searchInput" placeholder="Search items..." name="search" value="{{ request('search') }}">
+                            </form>
                         </div>
                     </div>
                     <div class="col-md-4 text-md-end">
@@ -72,13 +73,16 @@
         <div class="card border-0 rounded-4 shadow-sm mb-4">
             <div class="card-body p-3">
                 <div class="d-flex gap-2 overflow-auto">
-                    <button class="btn btn-sm btn-primary px-3" onclick="filterCategory('all')">
+                    <a href="{{ route('items.index') }}"
+                    class="btn btn-sm px-3 {{ request('category') ? 'btn-outline-primary' : 'btn-primary' }}">
                         All Items
-                    </button>
+                    </a>
+
                     @foreach($categories as $category)
-                    <button class="btn btn-sm btn-outline-primary px-3" onclick="filterCategory('{{ $category->id }}')">
-                        {{ $category->category_name }}
-                    </button>
+                        <a href="{{ route('items.index', ['category' => $category->id]) }}"
+                        class="btn btn-sm px-3 {{ request('category') == $category->id ? 'btn-primary' : 'btn-outline-primary' }}">
+                            {{ $category->category_name }}
+                        </a>
                     @endforeach
                 </div>
             </div>
@@ -253,45 +257,6 @@
         const form = document.getElementById('deleteForm');
         form.action = `/items/${itemId}`;
         modal.show();
-    }
-
-    // Search items function
-    function searchItems() {
-        const searchValue = document.getElementById('searchInput').value.toLowerCase();
-        const items = document.querySelectorAll('.item-container');
-
-        items.forEach(item => {
-            const itemName = item.getAttribute('data-name');
-            if (itemName.includes(searchValue)) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
-    }
-
-    // Filter by category function
-    function filterCategory(categoryId) {
-        const items = document.querySelectorAll('.item-container');
-        const buttons = document.querySelectorAll('[onclick^="filterCategory"]');
-
-        // Update active button
-        buttons.forEach(btn => {
-            btn.classList.remove('btn-primary');
-            btn.classList.add('btn-outline-primary');
-        });
-        event.target.classList.remove('btn-outline-primary');
-        event.target.classList.add('btn-primary');
-
-        // Filter items
-        items.forEach(item => {
-            const itemCategory = item.getAttribute('data-category');
-            if (categoryId === 'all' || itemCategory === categoryId) {
-                item.style.display = 'block';
-            } else {
-                item.style.display = 'none';
-            }
-        });
     }
 </script>
 

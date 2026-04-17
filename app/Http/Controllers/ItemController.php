@@ -7,10 +7,26 @@ use App\Models\{ActivityLog, Category, Item, Loan};
 
 class ItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $items = Item::with('category')->paginate(9);
+        $query = Item::with('category');
+
+        if ($request->filled('search')) {
+            $search = strtolower($request->search);
+
+            $query->where(function ($q) use ($search) {
+                $q->whereRaw('LOWER(item_name) LIKE ?', ["%{$search}%"])
+                    ->orWhereRaw('LOWER(item_code) LIKE ?', ["%{$search}%"]);
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        $items = $query->latest()->paginate(9);
         $categories = Category::all();
+
         return view('items.index', compact('items', 'categories'));
     }
 

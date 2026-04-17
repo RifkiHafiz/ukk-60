@@ -191,7 +191,7 @@
                     </a>
                 </li>
             @endif
-            @if (Auth::user()->role === 'Admin')
+            @if (Auth::user()->role === 'Admin' || Auth::user()->role === 'Staff')
                 <li class="nav-item">
                     <a href="{{ route('activity-logs.index') }}"
                     class="nav-link d-flex align-items-center gap-2
